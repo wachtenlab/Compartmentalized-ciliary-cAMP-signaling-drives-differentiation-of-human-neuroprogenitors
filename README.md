@@ -39,12 +39,6 @@ data/
 scripts/         Numbered analysis scripts
 ```
 
-## Software
-
-The analysis was run with Salmon 1.10.3, R 4.4.2, tximport 1.34.0,
-DESeq2 1.46.0, and CARNIVAL 2.16.0. Core package versions are listed in
-`SOFTWARE_VERSIONS.tsv`, the full R session is captured in `sessionInfo.txt`, and
-`environment.yml` records the required software stack.
 
 Create the environment with:
 
@@ -79,16 +73,17 @@ Run scripts from the repository root:
 Rscript scripts/01_tximport.R
 Rscript scripts/02_deseq2.R
 Rscript scripts/03_export_contrasts.R
-Rscript scripts/04_figure3b_neurogenic_markers.R
-Rscript scripts/05_figureS2bc_deg_counts_overlap.R
-Rscript scripts/06_figureS2d_go_enrichment.R
-Rscript scripts/07_figureS2e_npc_markers.R
-Rscript scripts/08_prepare_carnival_networks.R
-Rscript scripts/09_run_carnival_models.R
-Rscript scripts/10_export_carnival_results.R
-Rscript scripts/11_figure3d_carnival_network.R
-Rscript scripts/12_figureS2f_upstream_scan.R
-Daniel please add you scripts here.
+Daniel
+Rscript scripts/05_figure3b_neurogenic_markers.R
+Rscript scripts/06_figureS2bc_deg_counts_overlap.R
+Rscript scripts/07_figureS2d_go_enrichment.R
+Rscript scripts/08_figureS2e_npc_markers.R
+Daniel
+Rscript scripts/10_prepare_carnival_networks.R
+Rscript scripts/11_run_carnival_models.R
+Rscript scripts/12_export_carnival_results.R
+Rscript scripts/13_figure3d_carnival_network.R
+Rscript scripts/14_figureS2f_upstream_scan.R
 ```
 
 `01_tximport.R` is optional when using the processed data included in this repository.
