@@ -1,0 +1,25 @@
+name: rnaseq-analysis
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - r-base=4.4
+  - salmon=1.10.3
+  - r-data.table
+  - r-dplyr
+  - r-ggplot2
+  - r-ggraph
+  - r-igraph
+  - r-patchwork
+  - r-purrr
+  - r-readr
+  - r-scales
+  - r-stringr
+  - r-tibble
+  - r-tidyr
+  - bioconductor-annotationdbi
+  - bioconductor-carnival
+  - bioconductor-deseq2
+  - bioconductor-go.db
+  - bioconductor-org.hs.eg.db
+  - bioconductor-tximport

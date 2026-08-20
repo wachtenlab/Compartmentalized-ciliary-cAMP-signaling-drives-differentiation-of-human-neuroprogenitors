@@ -1,0 +1,361 @@
+node_id,inferred_activity,timepoint,model,motif_measurement,node_role
+AKT1,-100,T24,inverse,,Intermediate
+CAPN3,0,T24,inverse,,Intermediate
+CDK6,0,T24,inverse,,Intermediate
+CREB1,100,T24,inverse,,CREB1 anchor
+FOXA1,100,T24,inverse,,Intermediate
+FOXG1,-100,T24,inverse,-3.64,Measured motif TF
+FOXO1,-100,T24,inverse,-3.61,Measured motif TF
+GADD45A,100,T24,inverse,,Intermediate
+GCM1,100,T24,inverse,4.95,Measured motif TF
+GSK3B,-100,T24,inverse,,Intermediate
+KDM5B,-100,T24,inverse,,Intermediate
+LRRK2,-100,T24,inverse,,Intermediate
+MAPK14,-100,T24,inverse,,Intermediate
+MAX,0,T24,inverse,4.95,Measured motif TF
+MYC,0,T24,inverse,,Intermediate
+NFATC1,100,T24,inverse,4.69,Measured motif TF
+NFIB,100,T24,inverse,4.69,Measured motif TF
+NFIC,100,T24,inverse,4.69,Measured motif TF
+NFIX,100,T24,inverse,4.69,Measured motif TF
+NOTCH1,0,T24,inverse,,Intermediate
+PARP1,100,T24,inverse,,Intermediate
+PRKACA,100,T24,inverse,,PRKACA anchor
+Perturbation,100,T24,inverse,,Intermediate
+RB1,-100,T24,inverse,,Intermediate
+SGK1,0,T24,inverse,,Intermediate
+SMAD1,100,T24,inverse,4.69,Measured motif TF
+SMAD3,-100,T24,inverse,,Intermediate
+SMAD6,100,T24,inverse,,Intermediate
+SMARCA4,100,T24,inverse,,Intermediate
+SMURF1,-100,T24,inverse,,Intermediate
+SRC,0,T24,inverse,,Intermediate
+TLX1,100,T24,inverse,4.69,Measured motif TF
+YY1,100,T24,inverse,4.69,Measured motif TF
+AKT1,-100,T72,inverse,,Intermediate
+AKT3,100,T72,inverse,,Intermediate
+BHLHE40,0,T72,inverse,3.27,Measured motif TF
+BHLHE41,100,T72,inverse,3.27,Measured motif TF
+CDK1,0,T72,inverse,,Intermediate
+CDK6,100,T72,inverse,,Intermediate
+CREB1,100,T72,inverse,,CREB1 anchor
+CREBBP,0,T72,inverse,,Intermediate
+CTBP1,100,T72,inverse,,Intermediate
+GSK3B,0,T72,inverse,,Intermediate
+LRRK2,-100,T72,inverse,,Intermediate
+MAX,100,T72,inverse,3.57,Measured motif TF
+NCOR2,0,T72,inverse,,Intermediate
+NFIC,100,T72,inverse,3.22,Measured motif TF
+PRKAA1_PRKAA2_PRKAB1_PRKAB2_PRKAG1_PRKAG2_PRKAG3,-100,T72,inverse,,Intermediate
+PRKACA,100,T72,inverse,,PRKACA anchor
+Perturbation,100,T72,inverse,,Intermediate
+RB1,-100,T72,inverse,,Intermediate
+RELA,0,T72,inverse,,Intermediate
+SGK1,100,T72,inverse,,Intermediate
+SMAD2,0,T72,inverse,,Intermediate
+SMAD3,100,T72,inverse,,Intermediate
+SMAD6,0,T72,inverse,,Intermediate
+SMURF1,-100,T72,inverse,,Intermediate
+SP1,100,T72,inverse,,Intermediate
+SRC,0,T72,inverse,,Intermediate
+TBX21,100,T72,inverse,3.29,Measured motif TF
+TBX3,100,T72,inverse,3.29,Measured motif TF
+TCL1A,100,T72,inverse,,Intermediate
+TRAF6,0,T72,inverse,,Intermediate
+UBE2I,0,T72,inverse,,Intermediate
+YY1,100,T72,inverse,3.57,Measured motif TF
+AKT1,100,T8,inverse,,Intermediate
+AKT3,0,T8,inverse,,Intermediate
+ALX4,100,T8,inverse,4.48,Measured motif TF
+ATM,0,T8,inverse,,Intermediate
+CDK1,-100,T8,inverse,,Intermediate
+CDK5,-100,T8,inverse,,Intermediate
+CDK6,0,T8,inverse,,Intermediate
+CHEK1,0,T8,inverse,,Intermediate
+CREB1,-100,T8,inverse,,CREB1 anchor
+CREBBP,0,T8,inverse,,Intermediate
+CTNNB1,-100,T8,inverse,,Intermediate
+E2F1,0,T8,inverse,,Intermediate
+ESR1,0,T8,inverse,,Intermediate
+FOXC1,-100,T8,inverse,-5.16,Measured motif TF
+FOXC2,-100,T8,inverse,-5.16,Measured motif TF
+FOXF2,-100,T8,inverse,-5.16,Measured motif TF
+FOXG1,0,T8,inverse,-5.16,Measured motif TF
+FOXJ2,0,T8,inverse,-5.16,Measured motif TF
+FOXK2,-100,T8,inverse,-5.16,Measured motif TF
+FOXL2,-100,T8,inverse,-5.16,Measured motif TF
+FOXO1,-100,T8,inverse,-5.74,Measured motif TF
+FOXO3,-100,T8,inverse,-5.62,Measured motif TF
+FOXO4,-100,T8,inverse,-5.62,Measured motif TF
+FOXO6,-100,T8,inverse,-5.62,Measured motif TF
+FYN,-100,T8,inverse,,Intermediate
+GADD45A,0,T8,inverse,,Intermediate
+GSK3B,100,T8,inverse,,Intermediate
+GTF2B,-100,T8,inverse,,Intermediate
+KDM5B,0,T8,inverse,,Intermediate
+LATS1,-100,T8,inverse,,Intermediate
+LEF1,100,T8,inverse,,Intermediate
+LRRK2,100,T8,inverse,,Intermediate
+MAPK14,-100,T8,inverse,,Intermediate
+MAX,100,T8,inverse,,Intermediate
+MGA,100,T8,inverse,4.48,Measured motif TF
+NEK6,0,T8,inverse,,Intermediate
+NFIC,100,T8,inverse,3.85,Measured motif TF
+NOTCH1,0,T8,inverse,,Intermediate
+PARP1,0,T8,inverse,,Intermediate
+PRKACA,-100,T8,inverse,,PRKACA anchor
+Perturbation,100,T8,inverse,,Intermediate
+RB1,0,T8,inverse,,Intermediate
+SGK1,0,T8,inverse,,Intermediate
+SIRT1,-100,T8,inverse,,Intermediate
+SMAD1,100,T8,inverse,3.24,Measured motif TF
+SMAD2,0,T8,inverse,,Intermediate
+SMAD3,100,T8,inverse,,Intermediate
+SMAD6,-100,T8,inverse,,Intermediate
+SMARCA4,0,T8,inverse,,Intermediate
+SMURF1,-100,T8,inverse,,Intermediate
+SP1,0,T8,inverse,,Intermediate
+SRC,-100,T8,inverse,,Intermediate
+TBX21,0,T8,inverse,4.48,Measured motif TF
+TBX3,0,T8,inverse,4.48,Measured motif TF
+TCL1A,0,T8,inverse,,Intermediate
+TRAF6,0,T8,inverse,,Intermediate
+YY1,100,T8,inverse,4.08,Measured motif TF
+AKT1,0,T24,CREB1,,Intermediate
+CAPN3,0,T24,CREB1,,Intermediate
+CDK6,100,T24,CREB1,,Intermediate
+CREB1,100,T24,CREB1,,CREB1 anchor
+FOXA1,-100,T24,CREB1,,Intermediate
+FOXG1,0,T24,CREB1,-3.64,Measured motif TF
+FOXO1,0,T24,CREB1,-3.61,Measured motif TF
+GADD45A,100,T24,CREB1,,Intermediate
+GCM1,0,T24,CREB1,4.95,Measured motif TF
+GSK3B,0,T24,CREB1,,Intermediate
+KDM5B,0,T24,CREB1,,Intermediate
+LRRK2,0,T24,CREB1,,Intermediate
+MAPK14,-100,T24,CREB1,,Intermediate
+MAX,100,T24,CREB1,4.95,Measured motif TF
+MYC,0,T24,CREB1,,Intermediate
+NFATC1,100,T24,CREB1,4.69,Measured motif TF
+NFIB,-100,T24,CREB1,4.69,Measured motif TF
+NFIC,100,T24,CREB1,4.69,Measured motif TF
+NFIX,100,T24,CREB1,4.69,Measured motif TF
+NOTCH1,0,T24,CREB1,,Intermediate
+PARP1,0,T24,CREB1,,Intermediate
+PRKACA,0,T24,CREB1,,PRKACA anchor
+RB1,-100,T24,CREB1,,Intermediate
+SGK1,0,T24,CREB1,,Intermediate
+SMAD1,100,T24,CREB1,4.69,Measured motif TF
+SMAD3,100,T24,CREB1,,Intermediate
+SMAD6,100,T24,CREB1,,Intermediate
+SMARCA4,100,T24,CREB1,,Intermediate
+SMURF1,0,T24,CREB1,,Intermediate
+SRC,0,T24,CREB1,,Intermediate
+TLX1,0,T24,CREB1,4.69,Measured motif TF
+YY1,100,T24,CREB1,4.69,Measured motif TF
+AKT1,0,T72,CREB1,,Intermediate
+AKT3,100,T72,CREB1,,Intermediate
+BHLHE40,0,T72,CREB1,3.27,Measured motif TF
+BHLHE41,0,T72,CREB1,3.27,Measured motif TF
+CDK1,0,T72,CREB1,,Intermediate
+CDK6,100,T72,CREB1,,Intermediate
+CREB1,100,T72,CREB1,,CREB1 anchor
+CREBBP,100,T72,CREB1,,Intermediate
+CTBP1,0,T72,CREB1,,Intermediate
+GSK3B,0,T72,CREB1,,Intermediate
+LRRK2,0,T72,CREB1,,Intermediate
+MAX,100,T72,CREB1,3.57,Measured motif TF
+NCOR2,0,T72,CREB1,,Intermediate
+NFIC,0,T72,CREB1,3.22,Measured motif TF
+PRKAA1_PRKAA2_PRKAB1_PRKAB2_PRKAG1_PRKAG2_PRKAG3,0,T72,CREB1,,Intermediate
+PRKACA,0,T72,CREB1,,PRKACA anchor
+RB1,-100,T72,CREB1,,Intermediate
+RELA,0,T72,CREB1,,Intermediate
+SGK1,0,T72,CREB1,,Intermediate
+SMAD2,100,T72,CREB1,,Intermediate
+SMAD3,100,T72,CREB1,,Intermediate
+SMAD6,0,T72,CREB1,,Intermediate
+SMURF1,0,T72,CREB1,,Intermediate
+SP1,100,T72,CREB1,,Intermediate
+SRC,0,T72,CREB1,,Intermediate
+TBX21,100,T72,CREB1,3.29,Measured motif TF
+TBX3,100,T72,CREB1,3.29,Measured motif TF
+TCL1A,100,T72,CREB1,,Intermediate
+TRAF6,0,T72,CREB1,,Intermediate
+UBE2I,0,T72,CREB1,,Intermediate
+YY1,100,T72,CREB1,3.57,Measured motif TF
+AKT1,100,T8,CREB1,,Intermediate
+AKT3,100,T8,CREB1,,Intermediate
+ALX4,100,T8,CREB1,4.48,Measured motif TF
+ATM,0,T8,CREB1,,Intermediate
+CDK1,-100,T8,CREB1,,Intermediate
+CDK5,0,T8,CREB1,,Intermediate
+CDK6,100,T8,CREB1,,Intermediate
+CHEK1,0,T8,CREB1,,Intermediate
+CREB1,100,T8,CREB1,,CREB1 anchor
+CREBBP,100,T8,CREB1,,Intermediate
+CTNNB1,0,T8,CREB1,,Intermediate
+E2F1,0,T8,CREB1,,Intermediate
+ESR1,0,T8,CREB1,,Intermediate
+FOXC1,-100,T8,CREB1,-5.16,Measured motif TF
+FOXC2,0,T8,CREB1,-5.16,Measured motif TF
+FOXF2,0,T8,CREB1,-5.16,Measured motif TF
+FOXG1,0,T8,CREB1,-5.16,Measured motif TF
+FOXJ2,0,T8,CREB1,-5.16,Measured motif TF
+FOXK2,-100,T8,CREB1,-5.16,Measured motif TF
+FOXL2,0,T8,CREB1,-5.16,Measured motif TF
+FOXO1,0,T8,CREB1,-5.74,Measured motif TF
+FOXO3,0,T8,CREB1,-5.62,Measured motif TF
+FOXO4,0,T8,CREB1,-5.62,Measured motif TF
+FOXO6,-100,T8,CREB1,-5.62,Measured motif TF
+FYN,0,T8,CREB1,,Intermediate
+GADD45A,100,T8,CREB1,,Intermediate
+GSK3B,0,T8,CREB1,,Intermediate
+GTF2B,0,T8,CREB1,,Intermediate
+KDM5B,0,T8,CREB1,,Intermediate
+LATS1,0,T8,CREB1,,Intermediate
+LEF1,100,T8,CREB1,,Intermediate
+LRRK2,0,T8,CREB1,,Intermediate
+MAPK14,-100,T8,CREB1,,Intermediate
+MAX,100,T8,CREB1,,Intermediate
+MGA,100,T8,CREB1,4.48,Measured motif TF
+NEK6,0,T8,CREB1,,Intermediate
+NFIC,0,T8,CREB1,3.85,Measured motif TF
+NOTCH1,0,T8,CREB1,,Intermediate
+PARP1,0,T8,CREB1,,Intermediate
+PRKACA,0,T8,CREB1,,PRKACA anchor
+RB1,-100,T8,CREB1,,Intermediate
+SGK1,0,T8,CREB1,,Intermediate
+SIRT1,0,T8,CREB1,,Intermediate
+SMAD1,100,T8,CREB1,3.24,Measured motif TF
+SMAD2,100,T8,CREB1,,Intermediate
+SMAD3,100,T8,CREB1,,Intermediate
+SMAD6,100,T8,CREB1,,Intermediate
+SMARCA4,100,T8,CREB1,,Intermediate
+SMURF1,0,T8,CREB1,,Intermediate
+SP1,100,T8,CREB1,,Intermediate
+SRC,0,T8,CREB1,,Intermediate
+TBX21,100,T8,CREB1,4.48,Measured motif TF
+TBX3,100,T8,CREB1,4.48,Measured motif TF
+TCL1A,100,T8,CREB1,,Intermediate
+TRAF6,0,T8,CREB1,,Intermediate
+YY1,100,T8,CREB1,4.08,Measured motif TF
+AKT1,-100,T24,PRKACA,,Intermediate
+CAPN3,0,T24,PRKACA,,Intermediate
+CDK6,0,T24,PRKACA,,Intermediate
+CREB1,0,T24,PRKACA,,CREB1 anchor
+FOXA1,100,T24,PRKACA,,Intermediate
+FOXG1,-100,T24,PRKACA,-3.64,Measured motif TF
+FOXO1,-100,T24,PRKACA,-3.61,Measured motif TF
+GADD45A,0,T24,PRKACA,,Intermediate
+GCM1,100,T24,PRKACA,4.95,Measured motif TF
+GSK3B,-100,T24,PRKACA,,Intermediate
+KDM5B,-100,T24,PRKACA,,Intermediate
+LRRK2,-100,T24,PRKACA,,Intermediate
+MAPK14,0,T24,PRKACA,,Intermediate
+MAX,0,T24,PRKACA,4.95,Measured motif TF
+MYC,0,T24,PRKACA,,Intermediate
+NFATC1,0,T24,PRKACA,4.69,Measured motif TF
+NFIB,100,T24,PRKACA,4.69,Measured motif TF
+NFIC,100,T24,PRKACA,4.69,Measured motif TF
+NFIX,100,T24,PRKACA,4.69,Measured motif TF
+NOTCH1,0,T24,PRKACA,,Intermediate
+PARP1,100,T24,PRKACA,,Intermediate
+PRKACA,100,T24,PRKACA,,PRKACA anchor
+RB1,0,T24,PRKACA,,Intermediate
+SGK1,0,T24,PRKACA,,Intermediate
+SMAD1,0,T24,PRKACA,4.69,Measured motif TF
+SMAD3,-100,T24,PRKACA,,Intermediate
+SMAD6,0,T24,PRKACA,,Intermediate
+SMARCA4,0,T24,PRKACA,,Intermediate
+SMURF1,-100,T24,PRKACA,,Intermediate
+SRC,0,T24,PRKACA,,Intermediate
+TLX1,0,T24,PRKACA,4.69,Measured motif TF
+YY1,0,T24,PRKACA,4.69,Measured motif TF
+AKT1,-100,T72,PRKACA,,Intermediate
+AKT3,100,T72,PRKACA,,Intermediate
+BHLHE40,0,T72,PRKACA,3.27,Measured motif TF
+BHLHE41,100,T72,PRKACA,3.27,Measured motif TF
+CDK1,0,T72,PRKACA,,Intermediate
+CDK6,0,T72,PRKACA,,Intermediate
+CREB1,0,T72,PRKACA,,CREB1 anchor
+CREBBP,0,T72,PRKACA,,Intermediate
+CTBP1,100,T72,PRKACA,,Intermediate
+GSK3B,-100,T72,PRKACA,,Intermediate
+LRRK2,-100,T72,PRKACA,,Intermediate
+MAX,0,T72,PRKACA,3.57,Measured motif TF
+NCOR2,0,T72,PRKACA,,Intermediate
+NFIC,100,T72,PRKACA,3.22,Measured motif TF
+PRKAA1_PRKAA2_PRKAB1_PRKAB2_PRKAG1_PRKAG2_PRKAG3,-100,T72,PRKACA,,Intermediate
+PRKACA,100,T72,PRKACA,,PRKACA anchor
+RB1,0,T72,PRKACA,,Intermediate
+RELA,0,T72,PRKACA,,Intermediate
+SGK1,100,T72,PRKACA,,Intermediate
+SMAD2,0,T72,PRKACA,,Intermediate
+SMAD3,0,T72,PRKACA,,Intermediate
+SMAD6,0,T72,PRKACA,,Intermediate
+SMURF1,-100,T72,PRKACA,,Intermediate
+SP1,100,T72,PRKACA,,Intermediate
+SRC,0,T72,PRKACA,,Intermediate
+TBX21,100,T72,PRKACA,3.29,Measured motif TF
+TBX3,100,T72,PRKACA,3.29,Measured motif TF
+TCL1A,0,T72,PRKACA,,Intermediate
+TRAF6,100,T72,PRKACA,,Intermediate
+UBE2I,0,T72,PRKACA,,Intermediate
+YY1,0,T72,PRKACA,3.57,Measured motif TF
+AKT1,100,T8,PRKACA,,Intermediate
+AKT3,100,T8,PRKACA,,Intermediate
+ALX4,100,T8,PRKACA,4.48,Measured motif TF
+ATM,0,T8,PRKACA,,Intermediate
+CDK1,-100,T8,PRKACA,,Intermediate
+CDK5,0,T8,PRKACA,,Intermediate
+CDK6,100,T8,PRKACA,,Intermediate
+CHEK1,100,T8,PRKACA,,Intermediate
+CREB1,100,T8,PRKACA,,CREB1 anchor
+CREBBP,0,T8,PRKACA,,Intermediate
+CTNNB1,0,T8,PRKACA,,Intermediate
+E2F1,100,T8,PRKACA,,Intermediate
+ESR1,0,T8,PRKACA,,Intermediate
+FOXC1,-100,T8,PRKACA,-5.16,Measured motif TF
+FOXC2,0,T8,PRKACA,-5.16,Measured motif TF
+FOXF2,0,T8,PRKACA,-5.16,Measured motif TF
+FOXG1,-100,T8,PRKACA,-5.16,Measured motif TF
+FOXJ2,-100,T8,PRKACA,-5.16,Measured motif TF
+FOXK2,-100,T8,PRKACA,-5.16,Measured motif TF
+FOXL2,0,T8,PRKACA,-5.16,Measured motif TF
+FOXO1,-100,T8,PRKACA,-5.74,Measured motif TF
+FOXO3,-100,T8,PRKACA,-5.62,Measured motif TF
+FOXO4,0,T8,PRKACA,-5.62,Measured motif TF
+FOXO6,-100,T8,PRKACA,-5.62,Measured motif TF
+FYN,0,T8,PRKACA,,Intermediate
+GADD45A,100,T8,PRKACA,,Intermediate
+GSK3B,0,T8,PRKACA,,Intermediate
+GTF2B,0,T8,PRKACA,,Intermediate
+KDM5B,-100,T8,PRKACA,,Intermediate
+LATS1,0,T8,PRKACA,,Intermediate
+LEF1,100,T8,PRKACA,,Intermediate
+LRRK2,0,T8,PRKACA,,Intermediate
+MAPK14,-100,T8,PRKACA,,Intermediate
+MAX,100,T8,PRKACA,,Intermediate
+MGA,100,T8,PRKACA,4.48,Measured motif TF
+NEK6,-100,T8,PRKACA,,Intermediate
+NFIC,0,T8,PRKACA,3.85,Measured motif TF
+NOTCH1,0,T8,PRKACA,,Intermediate
+PARP1,100,T8,PRKACA,,Intermediate
+PRKACA,100,T8,PRKACA,,PRKACA anchor
+RB1,-100,T8,PRKACA,,Intermediate
+SGK1,100,T8,PRKACA,,Intermediate
+SIRT1,0,T8,PRKACA,,Intermediate
+SMAD1,100,T8,PRKACA,3.24,Measured motif TF
+SMAD2,0,T8,PRKACA,,Intermediate
+SMAD3,100,T8,PRKACA,,Intermediate
+SMAD6,100,T8,PRKACA,,Intermediate
+SMARCA4,100,T8,PRKACA,,Intermediate
+SMURF1,0,T8,PRKACA,,Intermediate
+SP1,100,T8,PRKACA,,Intermediate
+SRC,0,T8,PRKACA,,Intermediate
+TBX21,100,T8,PRKACA,4.48,Measured motif TF
+TBX3,100,T8,PRKACA,4.48,Measured motif TF
+TCL1A,100,T8,PRKACA,,Intermediate
+TRAF6,0,T8,PRKACA,,Intermediate
+YY1,100,T8,PRKACA,4.08,Measured motif TF

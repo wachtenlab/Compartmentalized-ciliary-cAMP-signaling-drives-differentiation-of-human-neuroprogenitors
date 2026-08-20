@@ -1,0 +1,12 @@
+go_id	term	family
+GO:0044782	Cilium organization	Primary cilium
+GO:1905515	Non-motile cilium assembly	Primary cilium
+GO:0042073	Intraciliary transport	Primary cilium
+GO:0061512	Protein localization to cilium	Primary cilium
+GO:0019933	cAMP-mediated signaling	Second-messenger signaling
+GO:0141156	cAMP/PKA signal transduction	Second-messenger signaling
+GO:0061351	Neural precursor cell proliferation	Neural progenitor biology
+GO:0060563	Neuroepithelial cell differentiation	Neural progenitor biology
+GO:0060019	Radial glial cell differentiation	Neural progenitor biology
+GO:2000177	Regulation of neural precursor cell proliferation	Neural progenitor biology
+
