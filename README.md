@@ -11,7 +11,9 @@ RNA-seq-derived manuscript panels.
 Included manuscript panels:
 
 - Figure 3b: neurogenic driver expression.
+- Figure 3c: Transcription factor motif enrichment.
 - Figure 3d: time-collapsed CARNIVAL consensus network.
+- Supplementary Figure S2a: PCA.
 - Supplementary Figure S2b: numbers of up- and downregulated genes.
 - Supplementary Figure S2c: overlap of differentially expressed genes.
 - Supplementary Figure S2d: selected GO biological-process summaries.
@@ -21,11 +23,6 @@ Included manuscript panels:
 Not included:
 
 - RNA-independent microscopy, biosensor, qPCR, and tissue-analysis panels.
-
-The PCA and TF-motif activity analyses were performed independently and will be
-deposited separately. The signed TF measurements required as input for CARNIVAL are
-provided in `data/carnival/tf_measurements.csv`; no TF-motif enrichment code is
-included here.
 
 See `FIGURE_MANIFEST.md` for the file-level mapping between scripts, inputs, and
 manuscript panels. `PROVENANCE.md` records the provenance of the archived panel data.
@@ -40,8 +37,6 @@ data/
   figure_data/   Plot-level source data for every included panel
   metadata/      Sample metadata
 scripts/         Numbered analysis scripts
-figures/         Generated PDF and PNG figures
-results/         Generated model objects and intermediate tables
 ```
 
 ## Software
@@ -93,6 +88,7 @@ Rscript scripts/09_run_carnival_models.R
 Rscript scripts/10_export_carnival_results.R
 Rscript scripts/11_figure3d_carnival_network.R
 Rscript scripts/12_figureS2f_upstream_scan.R
+Daniel please add you scripts here.
 ```
 
 `01_tximport.R` is optional when using the processed data included in this repository.
@@ -119,10 +115,7 @@ were defined by Benjamini-Hochberg adjusted p-value below 0.05.
 - The full signed, directed OmniPath network used in the analysis is frozen in
   `data/carnival/omnipath_signed_directed.csv`; the exact focused model network is
   retained in `data/carnival/omnipath_focused.csv`.
-- CARNIVAL uses TF measurements supplied by the separately performed motif analysis.
 - Plot-level source tables are retained in `data/figure_data`, so every included
   panel can be inspected without rerunning model fitting.
 - Supplementary Figure S2b-c is recreated from the exact archived values displayed
   in the manuscript; see `PROVENANCE.md`.
-- The rendered manuscript panels are included in `figures/`. Regenerable model
-  objects and intermediate tables belong in the ignored `results/` directory.
