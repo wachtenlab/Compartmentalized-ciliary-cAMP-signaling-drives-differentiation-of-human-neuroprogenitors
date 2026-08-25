@@ -1,0 +1,645 @@
+---
+title: "Light-response DEG correction and TF motif enrichment"
+author: "Daniel Burgdorf, Institute of Innate Immunity, University of Bonn, Germany"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+    df_print: paged
+knit: (function(input, ...) rmarkdown::render(input, envir = new.env()))
+---
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = TRUE,
+  warning = TRUE,
+  fig.width = 7, fig.height = 5, dpi = 150
+)
+
+```
+
+```{r setup, message=FALSE}
+library(tidyverse)
+library(glue)
+library(pheatmap)
+library(RcisTarget)
+library(readxl)
+
+theme_set(theme_classic())
+
+timepoints     <- c("T0", "T8", "T24", "T72")
+padj_threshold <- 0.05
+lfc_threshold  <- 1
+set.seed(1)
+```
+
+```{r install, eval=FALSE}
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("RcisTarget", ask = FALSE, update = FALSE)
+install.packages(c("tidyverse", "glue", "pheatmap"))
+```
+
+# 1. Background (phototoxicity) correction
+
+```{r correction-functions}
+filter_background_genes <- function(main_df, bg_df,
+                                    gene_col = "gene_id",
+                                    lfc_col  = "log2FoldChange",
+                                    padj_col = "padj") {
+
+  sig_main <- main_df %>%
+    filter(.data[[padj_col]] < padj_threshold,
+           abs(.data[[lfc_col]]) > lfc_threshold)
+
+  sig_bg <- bg_df %>%
+    filter(.data[[padj_col]] < padj_threshold,
+           abs(.data[[lfc_col]]) > lfc_threshold)
+
+
+  overlap <- sig_main %>%
+    transmute(gene = .data[[gene_col]], fc_main = .data[[lfc_col]]) %>%
+    distinct(gene, .keep_all = TRUE) %>%
+    inner_join(
+      sig_bg %>%
+        transmute(gene = .data[[gene_col]], fc_bg = .data[[lfc_col]]) %>%
+        distinct(gene, .keep_all = TRUE),
+      by = "gene"
+    ) %>%
+    mutate(same_direction = sign(fc_main) == sign(fc_bg))
+
+  bg_genes           <- overlap$gene[overlap$same_direction]   
+  opposite_direction <- overlap$gene[!overlap$same_direction]  
+
+  list(
+    cleaned            = sig_main %>% filter(!(.data[[gene_col]] %in% bg_genes)),
+    removed_background = sig_main %>% filter(.data[[gene_col]] %in% bg_genes),
+    opposite_direction = sig_main %>% filter(.data[[gene_col]] %in% opposite_direction),
+    original_sig       = sig_main
+  )
+}
+
+plot_volcano <- function(df, highlight_genes, highlight_label,
+                         keep_label = "Significant",
+                         gene_col = "gene_id",
+                         lfc_col  = "light_response_fc",
+                         padj_col = "padj",
+                         title = "") {
+
+  plot_df <- df %>%
+    mutate(
+      neglog10_padj = -log10(.data[[padj_col]]),
+      category = case_when(
+        .data[[gene_col]] %in% highlight_genes &
+          .data[[padj_col]] < padj_threshold &
+          abs(.data[[lfc_col]]) > lfc_threshold ~ highlight_label,
+        .data[[padj_col]] < padj_threshold &
+          abs(.data[[lfc_col]]) > lfc_threshold ~ keep_label,
+        TRUE ~ "Not significant"
+      )
+    )
+
+  cols <- c("grey85", "black", "red")
+  names(cols) <- c("Not significant", keep_label, highlight_label)
+
+  ggplot(plot_df, aes(.data[[lfc_col]], neglog10_padj, color = category)) +
+    geom_point(alpha = 0.8, size = 1.5) +
+    scale_color_manual(values = cols) +
+    geom_vline(xintercept = c(-lfc_threshold, lfc_threshold), linetype = "dashed") +
+    geom_hline(yintercept = -log10(padj_threshold), linetype = "dashed") +
+    labs(title = title, x = "Light-response log2FC", y = "-log10 adjusted p-value")
+}
+```
+
+```{r run-correction, message=FALSE}
+results <- list()
+
+for (tp in timepoints) {
+
+  message(glue("Processing {tp}"))
+
+  main_df <- read_tsv(glue("data/condition_Dark_vs_Light_at_{tp}.tsv"),
+                      show_col_types = FALSE) %>%
+    
+    mutate(light_response_fc = -log2FoldChange)
+
+  bg_df <- read_tsv(glue("data/condition_WT_vs_Dark_at_{tp}.tsv"),
+                    show_col_types = FALSE) %>%
+    
+    mutate(light_response_fc = log2FoldChange)
+
+  results[[tp]] <- filter_background_genes(
+    main_df, bg_df,
+    gene_col = "gene_id", lfc_col = "light_response_fc", padj_col = "padj"
+  )
+
+  removed <- results[[tp]]$removed_background$gene_id
+
+  print(plot_volcano(main_df, removed, "Phototoxicity candidates",
+                     title = glue("{tp} - before filtering")))
+
+  print(plot_volcano(main_df %>% filter(!(gene_id %in% removed)),
+                     removed, "Filtering failure", "Retained significant",
+                     title = glue("{tp} - after filtering")))
+}
+```
+
+```{r summary}
+summary_df <- map_dfr(timepoints, function(tp) {
+  tibble(
+    Timepoint          = tp,
+    Original_DEGs      = nrow(results[[tp]]$original_sig),
+    Removed_BG         = nrow(results[[tp]]$removed_background),
+    Opposite_Direction = nrow(results[[tp]]$opposite_direction),
+    Final_DEGs         = nrow(results[[tp]]$cleaned)
+  )
+})
+summary_df
+```
+
+```{r save-degs}
+dir.create("output", showWarnings = FALSE)
+for (tp in timepoints) {
+  write_tsv(results[[tp]]$cleaned,            glue("output/cleaned_DEGs_{tp}.tsv"))
+  write_tsv(results[[tp]]$removed_background, glue("output/removed_background_{tp}.tsv"))
+  write_tsv(results[[tp]]$opposite_direction, glue("output/opposite_direction_{tp}.tsv"))
+}
+```
+
+# 2. Directionality QC (positive controls)
+
+Known signaling / immediate-early genes should be **induced** by light. They should show **positive** `light_response_fc`. 
+
+```{r directionality-qc, message=FALSE}
+positive_controls <- c("FOS", "FOSB", "EGR1", "EGR2", "NR4A1", "ARC", "JUNB", "DUSP1")
+
+qc_df <- map_dfr(timepoints, function(tp) {
+  read_tsv(glue("data/condition_Dark_vs_Light_at_{tp}.tsv"), show_col_types = FALSE) %>%
+    filter(gene_id %in% positive_controls) %>%
+    transmute(gene_id, timepoint = tp,
+              light_response_fc = -log2FoldChange, padj)
+})
+
+qc_df %>%
+  mutate(timepoint = factor(timepoint, levels = timepoints)) %>%
+  arrange(gene_id, timepoint)
+```
+
+# 3. Gene lists for RcisTarget
+
+```{r gene-lists, message=FALSE}
+gene_lists <- list()
+for (tp in timepoints) {
+  df <- read_tsv(glue("output/cleaned_DEGs_{tp}.tsv"), show_col_types = FALSE)
+  gene_lists[[tp]] <- list(
+    up   = df %>% filter(light_response_fc >  lfc_threshold) %>% pull(gene_id) %>% unique(),
+    down = df %>% filter(light_response_fc < -lfc_threshold) %>% pull(gene_id) %>% unique()
+  )
+  message(glue("{tp}: {length(gene_lists[[tp]]$up)} up, {length(gene_lists[[tp]]$down)} down"))
+}
+```
+
+# 4. RcisTarget
+
+```{r rcistarget-load}
+
+
+motif_rankings <- importRankings(
+  "hg38_500bp_up_100bp_down_full_tx_v10_clust.genes_vs_motifs.rankings.feather"
+)
+
+
+motif_annot_v10 <- read_tsv(
+  "motifs-v10nr_clust-nr.hgnc-m0.001-o0.0.tbl",
+  show_col_types = FALSE
+)
+```
+
+```{r cistarget-run, message=FALSE}
+
+aucMaxRank <- 0.05 * getNumColsInDB(motif_rankings)   
+
+
+run_one <- function(genes, set_name, tp) {
+  genes <- unique(genes)
+  if (length(genes) < 2) {
+    message(glue("  {tp} {set_name}: only {length(genes)} genes - skipped"))
+    return(NULL)
+  }
+
+  auc_mat <- getAUC(calcAUC(
+    setNames(list(genes), set_name), motif_rankings,
+    aucMaxRank = aucMaxRank, nCores = 1, verbose = FALSE
+  ))
+
+
+  a_all <- if (set_name %in% rownames(auc_mat)) auc_mat[set_name, ] else auc_mat[, set_name]
+
+
+  keep <- !str_detect(names(a_all), "^metacluster_")
+  message(glue("  {tp} {set_name}: {sum(!keep)} metaclusters dropped before NES, ",
+               "{sum(keep)} motifs normalised over"))
+  a <- a_all[keep]
+
+  nes <- (a - mean(a)) / sd(a)             
+
+  tibble(geneSet = set_name,
+         motif   = names(a),
+         AUC     = round(a, 3),
+         NES     = round(nes, 3)) %>%
+    filter(NES >= 3) %>%                  
+    arrange(desc(NES))
+}
+
+motif_results <- list()
+for (tp in timepoints) {
+  message(glue("Running RcisTarget for {tp}"))
+  motif_results[[tp]] <- list(
+    up   = run_one(gene_lists[[tp]]$up,   "Upregulated",   tp),
+    down = run_one(gene_lists[[tp]]$down, "Downregulated", tp)
+  )
+}
+```
+
+```{r annotate, message=FALSE}
+annotate_motifs <- function(ct, direction, tp) {
+  if (is.null(ct) || nrow(ct) == 0) return(NULL)
+
+  joined <- ct %>% left_join(motif_annot_v10, by = c("motif" = "#motif_id"))
+
+
+  n_motifs <- n_distinct(ct$motif)
+  n_hit    <- n_distinct(joined$motif[!is.na(joined$gene_name)])
+  message(glue("  {tp} {direction}: {n_hit}/{n_motifs} motifs annotated ",
+               "({round(100 * n_hit / n_motifs)}%)"))
+
+  joined %>%
+    filter(!is.na(gene_name)) %>%
+
+    group_by(gene_name) %>%
+    slice_max(NES, n = 1, with_ties = FALSE) %>%   # best motif per TF
+    ungroup() %>%
+    mutate(timepoint = tp, direction = direction)
+}
+
+annotated <- list()
+for (tp in timepoints) {
+  annotated[[paste0(tp, "_UP")]]   <- annotate_motifs(motif_results[[tp]]$up,   "UP",   tp)
+  annotated[[paste0(tp, "_DOWN")]] <- annotate_motifs(motif_results[[tp]]$down, "DOWN", tp)
+}
+
+
+tf_long <- bind_rows(annotated) %>%
+  mutate(
+    signed_NES = if_else(direction == "UP", NES, -NES),
+    tf_label   = paste0(gene_name, "_", direction)
+  )
+```
+
+```{r save-tf-tables}
+dir.create("TF_results", showWarnings = FALSE)
+for (tp in timepoints) {
+  up   <- annotated[[paste0(tp, "_UP")]]
+  down <- annotated[[paste0(tp, "_DOWN")]]
+  if (!is.null(up))   write_tsv(up,   glue("TF_results/RcisTarget_UP_{tp}.tsv"))
+  if (!is.null(down)) write_tsv(down, glue("TF_results/RcisTarget_DOWN_{tp}.tsv"))
+}
+write_csv(tf_long, "TF_results/tf_long_all.csv")
+```
+
+# 5. PKA target list
+
+```{r pka-load, message=FALSE}
+pka_targets_df <- read_delim("PKA_target_list.csv", delim = ";", show_col_types = FALSE)
+
+pka_targets_humans <- pka_targets_df %>%
+  filter(ORGANISM == "human") %>%
+  pull(GENE) %>%
+  unique()
+
+
+intersect(unique(tf_long$gene_name), pka_targets_humans)
+```
+
+# 5b. Cilia-APEX localization
+
+```{r apex-load, message=FALSE}
+
+
+apex_file <- "41467_2026_73505_MOESM3_ESM.xlsx"   
+
+apex <- read_excel(apex_file, sheet = "Final", skip = 2)
+names(apex) <- trimws(names(apex))
+
+apex <- apex %>%
+  filter(!is.na(Genes)) %>%                        
+  mutate(
+    det_cilia = suppressWarnings(as.numeric(`Detected in Cilia`)),
+    det_cyto  = suppressWarnings(as.numeric(`Detected in Cytoplasm`)),
+    ratio     = suppressWarnings(as.numeric(`Cilia/Cytoplasm`)),
+    localization = case_when(
+      det_cilia > 0 & det_cyto > 0                 ~ "Cilia + Cytoplasm",
+      det_cilia > 0 & (is.na(det_cyto) | det_cyto == 0) ~ "Cilia",
+      TRUE                                          ~ "Cytoplasm/Not found"
+    )
+  )
+
+
+loc_map   <- setNames(apex$localization, apex$Genes)
+ratio_map <- setNames(apex$ratio,        apex$Genes)
+
+
+classify_localization <- function(genes) {
+  out <- unname(loc_map[genes])
+  out[is.na(out)] <- "Cytoplasm/Not found"
+  factor(out, levels = c("Cilia", "Cilia + Cytoplasm", "Cytoplasm/Not found"))
+}
+
+localization_colors <- c(
+  "Cilia"               = "#08519C",   # darkest = cilia-restricted
+  "Cilia + Cytoplasm"   = "#6BAED6",
+  "Cytoplasm/Not found" = "#EEEEEE"
+)
+```
+
+# 6. Matrices and annotations 
+
+```{r matrices}
+
+build_matrix <- function(long_df, value_col) {
+  d <- long_df %>%
+    select(tf_label, timepoint, all_of(value_col)) %>%
+    distinct()
+  names(d)[names(d) == value_col] <- "value"
+  m <- d %>%
+    pivot_wider(names_from = timepoint, values_from = value) %>%
+    column_to_rownames("tf_label") %>%
+    as.matrix()
+  for (tp in setdiff(timepoints, colnames(m)))
+    m <- cbind(m, `colnames<-`(matrix(NA_real_, nrow(m), 1), tp))
+  m[, timepoints, drop = FALSE]
+}
+
+nes_mat <- build_matrix(tf_long, "signed_NES")
+```
+
+```{r sig-matrix}
+
+sig_mat <- tf_long %>%
+  mutate(sig_label = case_when(abs(signed_NES) > 4 ~ "**",
+                               abs(signed_NES) > 3 ~ "*",
+                               TRUE ~ "")) %>%
+  select(tf_label, timepoint, value = sig_label) %>%
+  distinct() %>%
+  pivot_wider(names_from = timepoint, values_from = value) %>%
+  column_to_rownames("tf_label") %>%
+  as.matrix()
+for (tp in setdiff(timepoints, colnames(sig_mat)))
+  sig_mat <- cbind(sig_mat, `colnames<-`(matrix("", nrow(sig_mat), 1), tp))
+sig_mat <- sig_mat[, timepoints, drop = FALSE]
+sig_mat[is.na(sig_mat)] <- ""
+```
+
+```{r annotation-objects}
+col_anno <- data.frame(
+  Timepoint = factor(timepoints, levels = timepoints),
+  row.names = timepoints
+)
+col_anno_colors <- list(
+  Timepoint = c("T0" = "#402C60", "T8" = "#715A82",
+                "T24" = "#A27EAB", "T72" = "#C3A8C7")
+)
+row_anno_colors <- list(
+  direction    = c(UP = "#B2182B", DOWN = "#2166AC"),
+  PKA_target   = c(Yes = "#0B6623", No = "#D9D9D9"),
+  Localization = localization_colors
+)
+```
+
+# 7. Heatmaps
+
+```{r heatmap-helper}
+
+plot_tf_heatmap <- function(tf_labels, title, file = NULL, cluster = TRUE) {
+
+  tf_labels <- intersect(tf_labels, rownames(nes_mat))
+  if (length(tf_labels) == 0) {
+    message("Nothing to plot for: ", title); return(invisible(NULL))
+  }
+
+  m   <- nes_mat[tf_labels, , drop = FALSE]
+  sig <- sig_mat[tf_labels, , drop = FALSE]
+
+  row_anno <- tibble(tf_label = tf_labels) %>%
+    mutate(
+      gene_name    = str_remove(tf_label, "_(UP|DOWN)$"),
+      direction    = str_extract(tf_label, "(UP|DOWN)$"),
+      PKA_target   = if_else(gene_name %in% pka_targets_humans, "Yes", "No"),
+      Localization = as.character(classify_localization(gene_name))
+    ) %>%
+    column_to_rownames("tf_label") %>%
+    select(direction, PKA_target, Localization)
+
+
+  row_clust <- FALSE
+  if (cluster && length(tf_labels) > 1) {
+    m0 <- m; m0[is.na(m0)] <- 0
+    row_clust <- hclust(dist(m0))
+  }
+
+  lim <- max(abs(m), na.rm = TRUE)
+
+  ph <- pheatmap(
+    m,
+    scale           = "none",
+    cluster_cols    = FALSE,
+    cluster_rows    = row_clust,
+    labels_row      = str_remove(tf_labels, "_(UP|DOWN)$"),
+    display_numbers = sig,
+    number_color    = "#202020",
+    fontsize_number = 9,
+    color           = colorRampPalette(c("#2166AC", "white", "#B2182B"))(100),
+    breaks          = seq(-lim, lim, length.out = 101),
+    na_col          = "grey90",
+    cellwidth       = 25,
+    cellheight      = 10,
+    fontsize_row    = 9,
+    angle_col       = 45,
+    border_color    = NA,
+    annotation_row  = row_anno,
+    annotation_col  = col_anno,
+    annotation_colors = c(row_anno_colors, col_anno_colors),
+    main            = title,
+    silent          = TRUE
+  )
+
+  grid::grid.newpage(); grid::grid.draw(ph$gtable)   
+  if (!is.null(file)) {
+    pdf(file, width = 12, height = max(6, length(tf_labels) * 0.3))
+    grid::grid.newpage(); grid::grid.draw(ph$gtable)
+    dev.off()
+  }
+  invisible(ph)
+}
+```
+
+```{r select-tfs}
+top_n <- 30
+
+top_up <- tf_long %>% filter(direction == "UP") %>%
+  group_by(tf_label) %>% summarise(s = max(signed_NES), .groups = "drop") %>%
+  slice_max(s, n = top_n) %>% pull(tf_label)
+
+top_down <- tf_long %>% filter(direction == "DOWN") %>%
+  group_by(tf_label) %>% summarise(s = max(abs(signed_NES)), .groups = "drop") %>%
+  slice_max(s, n = top_n) %>% pull(tf_label)
+```
+
+```{r carnival-export}
+top_labels <- c(top_up, top_down)
+
+
+nes_export <- tf_long %>%
+  filter(tf_label %in% top_labels) %>%
+
+  group_by(gene_name, timepoint) %>%
+  slice_max(abs(signed_NES), n = 1, with_ties = FALSE) %>%
+  ungroup()
+
+
+clashes <- tf_long %>%
+  filter(tf_label %in% top_labels) %>%
+  distinct(gene_name, timepoint, direction) %>%
+  count(gene_name, timepoint) %>%
+  filter(n > 1)
+if (nrow(clashes) > 0)
+  message(glue("{nrow(clashes)} gene x timepoint up/down clashes resolved by |NES|"))
+
+
+nes_wide <- nes_export %>%
+  select(gene_name, timepoint, signed_NES) %>%
+  pivot_wider(names_from = timepoint, values_from = signed_NES) %>%
+  arrange(gene_name)
+
+write_csv(nes_wide, "TF_results/top30_TF_NES_for_CARNIVAL.csv")
+message(glue("Exported NES for {nrow(nes_wide)} TFs across ",
+             "{ncol(nes_wide) - 1} timepoints"))
+```
+
+
+```{r heatmap-carnival-input}
+
+mat <- nes_wide %>%
+  column_to_rownames("gene_name") %>%
+  as.matrix()
+mat <- mat[, timepoints, drop = FALSE]          
+
+
+row_clust <- if (nrow(mat) > 1) {
+  m0 <- mat; m0[is.na(m0)] <- 0
+  hclust(dist(m0))
+} else FALSE
+
+lim <- max(abs(mat), na.rm = TRUE)             
+
+pheatmap(
+  mat,
+  scale             = "none",
+  cluster_cols      = FALSE,
+  cluster_rows      = row_clust,
+  color             = colorRampPalette(c("#2166AC", "white", "#B2182B"))(100),
+  breaks            = seq(-lim, lim, length.out = 101),
+  na_col            = "grey90",
+  cellwidth         = 25,
+  cellheight        = 10,
+  fontsize_row      = 8,
+  angle_col         = 45,
+  border_color      = NA,
+  annotation_col    = col_anno,
+  annotation_colors = col_anno_colors,
+  main              = "Top TF motif NES (CARNIVAL input)",
+  filename          = "TF_results/top30_TF_NES_heatmap.pdf",
+  width             = 6,
+  height            = max(6, nrow(mat) * 0.18)
+)
+```
+
+
+
+```{r heatmap-combined}
+
+plot_tf_heatmap(
+  c(top_up, top_down),
+  title = "Directional TF motif enrichment landscape",
+  file  = "TF_motif_combined_heatmap.pdf"
+)
+```
+
+```{r heatmap-pka}
+
+pka_labels <- tf_long %>%
+  filter(gene_name %in% pka_targets_humans) %>%
+  group_by(tf_label) %>%
+  summarise(s = max(abs(signed_NES)), .groups = "drop") %>%
+  arrange(desc(s)) %>%
+  pull(tf_label)
+
+plot_tf_heatmap(
+  pka_labels,
+  title   = "PKA-target TF motif enrichment",
+  file    = "PKA_TF_motif_heatmap.pdf",
+  cluster = TRUE
+)
+```
+
+```{r pka-cilia-ratio, fig.width=6, fig.height=5}
+
+pka_genes  <- unique(str_remove(pka_labels, "_(UP|DOWN)$"))
+both_genes <- pka_genes[classify_localization(pka_genes) == "Cilia + Cytoplasm"]
+
+ratio_df <- tibble(gene = both_genes, ratio = unname(ratio_map[both_genes])) %>%
+  filter(!is.na(ratio)) %>%
+  arrange(desc(ratio))
+
+if (nrow(ratio_df) == 0) {
+  message("No PKA-target TFs detected in both compartments.")
+} else {
+  print(
+    ggplot(ratio_df, aes(reorder(gene, ratio), ratio)) +
+      geom_col(fill = "#6BAED6") +
+      geom_hline(yintercept = 1, linetype = "dashed", color = "grey50") +
+      coord_flip() +
+      scale_y_log10() +
+      labs(x = NULL, y = "Cilia / Cytoplasm ratio (log scale)",
+           title = "Cilia/cyto enrichment - PKA-target TFs in both compartments")
+  )
+  ratio_df
+}
+```
+
+# 8. Per-direction NES barplots (optional)
+
+```{r barplots}
+for (tp in timepoints) {
+  for (dir in c("UP", "DOWN")) {
+    d <- annotated[[paste0(tp, "_", dir)]]
+    if (is.null(d) || nrow(d) == 0) next
+    top <- d %>% arrange(desc(NES)) %>% slice_head(n = 20)
+    print(
+      ggplot(top, aes(reorder(gene_name, NES), NES, fill = NES)) +
+        geom_col() +
+        scale_fill_gradient(low = "#BFD7EA", high = "#0B3954") +
+        coord_flip() +
+        labs(title = glue("{tp} - TF motifs ({dir} genes)"), x = "TF", y = "NES")
+    )
+  }
+}
+```
+
+
+```{r session-info}
+sessionInfo()
+```
