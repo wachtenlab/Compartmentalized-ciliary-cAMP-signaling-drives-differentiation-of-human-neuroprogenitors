@@ -72,7 +72,7 @@ Run scripts from the repository root:
 Rscript scripts/01_tximport.R
 Rscript scripts/02_deseq2.R
 Rscript scripts/03_export_contrasts.R
-Rscript scripts/09_tf_motif_enrichment_analysis.Rmd
+Rscript scripts/04_RNASeq_analysis_preprocessing.ipynb
 Rscript scripts/05_figure3b_neurogenic_markers.R
 Rscript scripts/06_figureS2bc_deg_counts_overlap.R
 Rscript scripts/07_figureS2d_go_enrichment.R
