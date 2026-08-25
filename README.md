@@ -27,6 +27,8 @@ Not included:
 See `FIGURE_MANIFEST.md` for the file-level mapping between scripts, inputs, and
 manuscript panels.
 
+## DOI: https://doi.org/10.5281/zenodo.22098965
+
 ## Repository layout
 
 ```text
