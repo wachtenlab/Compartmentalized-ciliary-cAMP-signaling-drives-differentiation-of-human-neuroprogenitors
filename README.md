@@ -25,7 +25,7 @@ Not included:
 - RNA-independent microscopy, biosensor, qPCR, and tissue-analysis panels.
 
 See `FIGURE_MANIFEST.md` for the file-level mapping between scripts, inputs, and
-manuscript panels. `PROVENANCE.md` records the provenance of the archived panel data.
+manuscript panels.
 
 ## Repository layout
 
@@ -62,8 +62,7 @@ The sample directory names must match `sample` in
 `data/metadata/sample_metadata.tsv`. GENCODE release 49 was used.
 
 Raw FASTQ files and Salmon quantification directories are not duplicated in this
-code repository. They should be obtained from the accompanying sequencing-data
-archive when its accession is available.
+code repository.
 
 ## Run order
 
@@ -90,7 +89,6 @@ Rscript scripts/14_figureS2f_upstream_scan.R
 `02_deseq2.R` uses `data/counts/tximport_gene_level.rds` by default and otherwise
 uses `data/counts/gene_counts.csv`.
 
-All scripts use relative paths and contain no workstation-specific locations.
 
 ## Statistical analysis
 
@@ -112,5 +110,3 @@ were defined by Benjamini-Hochberg adjusted p-value below 0.05.
   retained in `data/carnival/omnipath_focused.csv`.
 - Plot-level source tables are retained in `data/figure_data`, so every included
   panel can be inspected without rerunning model fitting.
-- Supplementary Figure S2b-c is recreated from the exact archived values displayed
-  in the manuscript; see `PROVENANCE.md`.
