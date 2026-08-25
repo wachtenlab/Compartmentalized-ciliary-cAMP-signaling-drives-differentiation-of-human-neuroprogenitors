@@ -72,12 +72,12 @@ Run scripts from the repository root:
 Rscript scripts/01_tximport.R
 Rscript scripts/02_deseq2.R
 Rscript scripts/03_export_contrasts.R
-Daniel
+Rscript scripts/09_tf_motif_enrichment_analysis.Rmd
 Rscript scripts/05_figure3b_neurogenic_markers.R
 Rscript scripts/06_figureS2bc_deg_counts_overlap.R
 Rscript scripts/07_figureS2d_go_enrichment.R
 Rscript scripts/08_figureS2e_npc_markers.R
-Daniel
+Rscript scripts/09_tf_motif_enrichment_analysis.Rmd
 Rscript scripts/10_prepare_carnival_networks.R
 Rscript scripts/11_run_carnival_models.R
 Rscript scripts/12_export_carnival_results.R
